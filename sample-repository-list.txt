@@ -1,0 +1,4 @@
+albin	file:///svn/Albin
+awesomeProject	svn+ssh://example.org/svn/awesomeProject/repo
+notSoEvilProject	https://example.com/svn/evilestProjectEver
+file:///svn/secretProject

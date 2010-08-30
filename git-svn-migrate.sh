@@ -151,21 +151,28 @@ do
   # Process each Subversion URL.
   echo
   echo "Processing \"$name\" repository at $url..." >&2;
+
+  # Init the final bare repository.
+  mkdir $destination/$name.git;
+  cd $destination/$name.git;
+  git init --bare;
+  git symbolic-ref HEAD refs/heads/trunk;
+
+  # Clone the original Subversion repository to a temp repository.
+  cd $pwd;
   rm -r $tmp_destination >&2 /dev/null;
   git svn clone $url --no-metadata -A $authors_file --authors-prog=./svn-lookup-author.sh --stdlayout --quiet $gitsvn_params $tmp_destination;
+
+  # Create .gitignore file.
   cd $tmp_destination;
-  # Create .gitignore file
   git svn show-ignore >> .gitignore;
   git add .gitignore;
   git commit --author="git-svn-migrate <nobody@example.org>" -m 'Convert svn:ignore properties to .gitignore.';
-  # Remove unneeded git-svn config variables and internal files.
-  git config --remove-section svn-remote.svn;
-  git config --remove-section svn;
-  rm -r .git/svn;
+
+  # Push to final bare repository and remove temp repository.
+  git remote add bare $destination/$name.git;
+  git config remote.bare.push 'refs/remotes/*:refs/heads/*';
+  git push bare;
   cd $pwd;
-  git clone --bare $tmp_destination $destination/$name.git;
   rm -r $tmp_destination;
-  cd $destination/$name.git;
-  git remote rm origin;
-  cd $pwd;
 done < $url_file

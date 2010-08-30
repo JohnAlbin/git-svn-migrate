@@ -134,9 +134,10 @@ fi
 
 
 # Process each URL in the repository list.
-tmp_destination="tmp-git-repo";
 pwd=`pwd`;
+tmp_destination="$pwd/tmp-git-repo";
 mkdir -p $destination;
+destination=`cd $destination; pwd`; #Absolute path.
 while read line
 do
   # Check for 2-field format:  Name [tab] URL

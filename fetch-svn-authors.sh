@@ -61,15 +61,15 @@ destination='';
 until [[ -z "$1" ]]; do
   option=$1;
   # Strip off leading '--' or '-'.
-  if [[ ${1:0:1} == '-' ]]; then
-    if [[ ${1:0:2} == '--' ]]; then
-      tmp=${1:2};
+  if [[ ${option:0:1} == '-' ]]; then
+    if [[ ${option:0:2} == '--' ]]; then
+      tmp=${option:2};
     else
-      tmp=${1:1};
+      tmp=${option:1};
     fi
   else
     # Any argument given is assumed to be the destination folder.
-    tmp="destination=$1";
+    tmp="destination=$option";
   fi
   parameter=${tmp%%=*}; # Extract option's name.
   value=${tmp##*=};     # Extract option's value.
@@ -93,7 +93,7 @@ until [[ -z "$1" ]]; do
     h )            echo $help | less >&2; exit;;
     help )         echo $help | less >&2; exit;;
 
-    * )            echo "Unknown option: $1\n$usage" >&2; exit 1;;
+    * )            echo "Unknown option: $option\n$usage" >&2; exit 1;;
   esac
 
   # Remove the processed parameter.

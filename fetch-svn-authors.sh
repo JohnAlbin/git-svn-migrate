@@ -107,11 +107,12 @@ until [[ -z "$1" ]]; do
   shift;
 done
 
-# Check for valid file.
+# Check for required parameters.
 if [[ $url_file == '' ]]; then
   echo $usage >&2;
   exit 1;
 fi
+# Check for valid file.
 if [[ ! -f $url_file ]]; then
   echo "Specified URL file \"$url_file\" does not exist or is not a file." >&2;
   echo $usage >&2;

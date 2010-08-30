@@ -97,22 +97,22 @@ until [[ -z "$1" ]]; do
   esac
 
   case $parameter in
-    u )            url_file=$value;;
-    url-file )     url_file=$value;;
-    a )            authors_file=$value;;
-    authors-file ) authors_file=$value;;
-    d )            destination=$value;;
-    destination )  destination=$value;;
+    u )               url_file=$value;;
+    url-file )        url_file=$value;;
+    a )               authors_file=$value;;
+    authors-file )    authors_file=$value;;
+    d )               destination=$value;;
+    destination )     destination=$value;;
     no-minimize-url ) gitsvn_params="$gitsvn_params --no-minimize-url";;
 
-    h )            echo $help | less >&2; exit;;
-    help )         echo $help | less >&2; exit;;
+    h )               echo $help | less >&2; exit;;
+    help )            echo $help | less >&2; exit;;
 
-    * )            echo "Unknown option: $option\n$usage" >&2; exit 1;;
+    * )               echo "Unknown option: $option\n$usage" >&2; exit 1;;
   esac
 
   # Remove the processed parameter.
-  shift
+  shift;
 done
 
 # Check for required parameters.

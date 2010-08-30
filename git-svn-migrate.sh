@@ -175,4 +175,23 @@ do
   git push bare;
   cd $pwd;
   rm -r $tmp_destination;
+
+  # Rename Subversion's "trunk" branch to Git's standard "master" branch.
+  cd $destination/$name.git;
+  git branch -m trunk master
+
+  # Remove bogus branches of the form "name@REV".
+  git for-each-ref --format='%(refname)' refs/heads | grep '@[0-9][0-9]*' | cut -d / -f 3- |
+  while read ref
+  do
+    git branch -D "$ref";
+  done
+
+  # Convert git-svn tag branches to proper tags.
+  git for-each-ref --format='%(refname)' refs/heads/tags | cut -d / -f 4 |
+  while read ref
+  do
+    git tag -a "$ref" -m "Convert \"$ref\" to proper git tag." "refs/heads/tags/$ref";
+    git branch -D "tags/$ref";
+  done
 done < $url_file

@@ -136,6 +136,7 @@ do
   # Process each Subversion URL.
   echo
   echo "Processing \"$name\" repository at $url..." >&2;
+  rm -r $tmp_destination >&2 /dev/null;
   git svn clone $url --no-metadata -A $authors_file --authors-prog=./svn-lookup-author.sh --stdlayout --quiet $tmp_destination;
   cd $tmp_destination;
   # Create .gitignore file

@@ -20,6 +20,8 @@ repositories is the following:
 USAGE
 -----
 
+1. Create a list of Subversion repositories to convert.
+
 The repository list can be in two forms. The simplest form is simply one URL per
 line:
 
@@ -41,20 +43,30 @@ repository:
   secretProject     file:///svn/secretProject
   notSoEvilProject  https://example.com/svn/evilestProjectEver
 
+2. Retrieve a list of Subversion committers with:
+
+Using the repository list created in step 1, run the fetch-svn-author.sh script
+to create a list of unique usernames for all the commits in your repositories.
+The output of the script should be redirected to a file.
+
 Example:
 
-$ ./fetch-svn-author.sh --url-file=repository-list.txt > authors-raw.txt
+  $ ./fetch-svn-author.sh --url-file=repository-list.txt > authors-raw.txt
 
-The above command will produce a list of unique authors for all of the
-Subversion repositories listed in the repository-list.txt file. The contents of
-authors-raw.txt are of the form:
+3. Edit the raw list of Subverions committers to provide full names and emails.
+
+The output of the fetch-svn-author.sh script will be of the form:
   username = username <username>
 You should edit each line to be:
   username = Full name <email>
 For example:
   jwilkins = John Albin Wilkins <john@example.org>
 
-@TODO Complete usage docs.
+4. Convert the Subverion repositories into bare Git repositories.
+
+Example:
+
+  $ ./git-svn-migrate.sh --url-file=repository-list.txt --authors-file=authors.txt /var/git
 
 
 AUTHENTICATION

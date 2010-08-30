@@ -73,16 +73,23 @@ until [[ -z "$1" ]]; do
   fi
   parameter=${tmp%%=*}; # Extract option's name.
   value=${tmp##*=};     # Extract option's value.
-  # If the value is not specified inside the parameter, grab the next param.
-  if [[ $value == $tmp ]]; then
-    if [[ ${2:0:1} == '-' ]]; then
-      # The next parameter is a new option, so unset the value.
-      value='';
-    else
-      value=$2;
-      shift;
-    fi
-  fi
+  case $parameter in
+    # Some parameters don't require a value.
+    #no-minimize-url ) ;;
+
+    # If a value is expected, but not specified inside the parameter, grab the next param.
+    * )
+      if [[ $value == $tmp ]]; then
+        if [[ ${2:0:1} == '-' ]]; then
+          # The next parameter is a new option, so unset the value.
+          value='';
+        else
+          value=$2;
+          shift;
+        fi
+      fi
+      ;;
+  esac
 
   case $parameter in
     u )            url_file=$value;;

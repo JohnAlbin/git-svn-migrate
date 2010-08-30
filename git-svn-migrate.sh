@@ -40,6 +40,10 @@ NAME
 \n\t\tThe directory where the new Git repositories should be
 \n\t\tsaved. Defaults to the current directory.
 \n
+\n\t--no-minimize-url
+\n\t\tPass the "--no-minimize-url" parameter to git-svn. See
+\n\t\tgit svn --help for more info.
+\n
 \nBASIC EXAMPLES
 \n\t# Use the long parameter names
 \n\t$script --url-file=my-repository-list.txt --authors-file=authors-file.txt --destination=/var/git
@@ -56,6 +60,7 @@ EOF_HELP
 
 # Set defaults for any optional parameters or arguments.
 destination='.';
+gitsvn_params='';
 
 # Process parameters.
 until [[ -z "$1" ]]; do
@@ -73,16 +78,23 @@ until [[ -z "$1" ]]; do
   fi
   parameter=${tmp%%=*}; # Extract option's name.
   value=${tmp##*=};     # Extract option's value.
-  # If the value is not specified inside the parameter, grab the next param.
-  if [[ $value == $tmp ]]; then
-    if [[ ${2:0:1} == '-' ]]; then
-      # The next parameter is a new option, so unset the value.
-      value='';
-    else
-      value=$2;
-      shift;
-    fi
-  fi
+  case $parameter in
+    # Some parameters don't require a value.
+    no-minimize-url ) ;;
+
+    # If a value is expected, but not specified inside the parameter, grab the next param.
+    * )
+      if [[ $value == $tmp ]]; then
+        if [[ ${2:0:1} == '-' ]]; then
+          # The next parameter is a new option, so unset the value.
+          value='';
+        else
+          value=$2;
+          shift;
+        fi
+      fi
+      ;;
+  esac
 
   case $parameter in
     u )            url_file=$value;;
@@ -91,6 +103,7 @@ until [[ -z "$1" ]]; do
     authors-file ) authors_file=$value;;
     d )            destination=$value;;
     destination )  destination=$value;;
+    no-minimize-url ) gitsvn_params="$gitsvn_params --no-minimize-url";;
 
     h )            echo $help | less >&2; exit;;
     help )         echo $help | less >&2; exit;;
@@ -138,7 +151,7 @@ do
   echo
   echo "Processing \"$name\" repository at $url..." >&2;
   rm -r $tmp_destination >&2 /dev/null;
-  git svn clone $url --no-metadata -A $authors_file --authors-prog=./svn-lookup-author.sh --stdlayout --quiet $tmp_destination;
+  git svn clone $url --no-metadata -A $authors_file --authors-prog=./svn-lookup-author.sh --stdlayout --quiet $gitsvn_params $tmp_destination;
   cd $tmp_destination;
   # Create .gitignore file
   git svn show-ignore >> .gitignore;

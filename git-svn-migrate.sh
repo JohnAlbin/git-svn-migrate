@@ -138,6 +138,12 @@ pwd=`pwd`;
 tmp_destination="$pwd/tmp-git-repo";
 mkdir -p $destination;
 destination=`cd $destination; pwd`; #Absolute path.
+
+# Ensure temporary repository location is empty.
+if [[ -e $tmp_destination ]]; then
+  echo "Temporary repository location \"$tmp_destination\" already exists. Exiting." >&2;
+  exit 1;
+fi
 while read line
 do
   # Check for 2-field format:  Name [tab] URL
@@ -160,7 +166,6 @@ do
 
   # Clone the original Subversion repository to a temp repository.
   cd $pwd;
-  rm -r $tmp_destination >&2 /dev/null;
   git svn clone $url --no-metadata -A $authors_file --authors-prog=./svn-lookup-author.sh --stdlayout --quiet $gitsvn_params $tmp_destination;
 
   # Create .gitignore file.

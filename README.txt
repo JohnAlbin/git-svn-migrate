@@ -68,6 +68,9 @@ Example:
 
   $ ./git-svn-migrate.sh --url-file=repository-list.txt --authors-file=authors.txt /var/git
 
+NOTE: Due to a minor bug/limitation, you'll need to run the script from within
+the folder containing the git-svn-migrate.sh script.
+
 
 AUTHENTICATION
 --------------

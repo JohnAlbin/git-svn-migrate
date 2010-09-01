@@ -134,7 +134,7 @@ do
   fi
   # Process the log of each Subversion URL.
   echo "Processing \"$name\" repository at $url..." >&2;
-  /bin/echo -n "  ";
+  /bin/echo -n "  " >&2;
   svn log -q $url | awk -F ' \| ' '/^r/ {print $3" = "$3" <"$3">"}' | sort -u >> $tmp_file;
   echo "Done." >&2;
 done < $url_file

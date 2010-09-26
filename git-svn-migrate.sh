@@ -161,7 +161,8 @@ do
     name=`basename $url`;
   fi
   # Process each Subversion URL.
-  echo;
+  echo >&2;
+  echo "At $(date)..." >&2;
   echo "Processing \"$name\" repository at $url..." >&2;
 
   # Init the final bare repository.

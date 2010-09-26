@@ -35,7 +35,7 @@ NAME
 \n\t--authors-file=[filename], --authors-file [filename]
 \n\t\tSpecify the file containing the authors transformation data.
 \n
-\n\t-d=<folder>, -d <folder,
+\n\t-d=<folder>, -d <folder>,
 \n\t--destination=<folder>, --destination <folder>
 \n\t\tThe directory where the new Git repositories should be
 \n\t\tsaved. Defaults to the current directory.

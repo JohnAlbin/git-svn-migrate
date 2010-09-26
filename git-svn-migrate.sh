@@ -170,7 +170,7 @@ do
 
   # Create .gitignore file.
   cd $tmp_destination;
-  git svn show-ignore >> .gitignore;
+  git svn show-ignore --id trunk >> .gitignore;
   git add .gitignore;
   git commit --author="git-svn-migrate <nobody@example.org>" -m 'Convert svn:ignore properties to .gitignore.';
 

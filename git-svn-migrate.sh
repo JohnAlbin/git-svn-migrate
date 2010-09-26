@@ -178,6 +178,8 @@ do
   git remote add bare $destination/$name.git;
   git config remote.bare.push 'refs/remotes/*:refs/heads/*';
   git push bare;
+  # Push the .gitignore commit that resides on master.
+  git push bare master:trunk;
   cd $pwd;
   rm -r $tmp_destination;
 

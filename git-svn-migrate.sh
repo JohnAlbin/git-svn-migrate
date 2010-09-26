@@ -40,6 +40,10 @@ NAME
 \n\t\tThe directory where the new Git repositories should be
 \n\t\tsaved. Defaults to the current directory.
 \n
+\n\t-i=<filename>, -i <filename>,
+\n\t--ignore-file=<filename>, --ignore-file <filename>
+\n\t\tThe location of a .gitignore file to add to all repositories.
+\n
 \n\t--no-minimize-url
 \n\t\tPass the "--no-minimize-url" parameter to git-svn. See
 \n\t\tgit svn --help for more info.
@@ -103,6 +107,8 @@ until [[ -z "$1" ]]; do
     authors-file )    authors_file=$value;;
     d )               destination=$value;;
     destination )     destination=$value;;
+    i )               ignore_file=$value;;
+    ignore-file )     ignore_file=$value;;
     no-minimize-url ) gitsvn_params="$gitsvn_params --no-minimize-url";;
 
     h )               echo $help | less >&2; exit;;
@@ -169,6 +175,10 @@ do
   git svn clone $url --no-metadata -A $authors_file --authors-prog=./svn-lookup-author.sh --stdlayout --quiet $gitsvn_params $tmp_destination;
 
   # Create .gitignore file.
+  echo "Converting svn:ignore properties into .gitignore." >&2;
+  if [[ $ignore_file != '' ]]; then
+    cp $ignore_file $tmp_destination/.gitignore;
+  fi
   cd $tmp_destination;
   git svn show-ignore --id trunk >> .gitignore;
   git add .gitignore;

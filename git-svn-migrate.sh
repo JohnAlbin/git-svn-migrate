@@ -112,8 +112,8 @@ until [[ -z "$1" ]]; do
     ignore-file )     ignore_file=$value;;
     no-minimize-url ) gitsvn_params="$gitsvn_params --no-minimize-url";;
 
-    h )               echo $help | less >&2; exit;;
-    help )            echo $help | less >&2; exit;;
+    h )               echo -e $help | less >&2; exit;;
+    help )            echo -e $help | less >&2; exit;;
 
     * )               echo "Unknown option: $option\n$usage" >&2; exit 1;;
   esac

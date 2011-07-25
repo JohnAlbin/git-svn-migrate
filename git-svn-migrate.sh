@@ -4,6 +4,7 @@
 # Available under the GPL v2 license. See LICENSE.txt.
 
 script=`basename $0`;
+dir=`pwd`/`dirname $0`;
 usage=$(cat <<EOF_USAGE
 USAGE: $script --url-file=<filename> --authors-file=<filename> [destination folder]
 \n
@@ -173,7 +174,7 @@ do
 
   # Clone the original Subversion repository to a temp repository.
   cd $pwd;
-  git svn clone $url --no-metadata -A $authors_file --authors-prog=./svn-lookup-author.sh --stdlayout --quiet $gitsvn_params $tmp_destination;
+  git svn clone $url --no-metadata -A $authors_file --authors-prog=$dir/svn-lookup-author.sh --stdlayout --quiet $gitsvn_params $tmp_destination;
 
   # Create .gitignore file.
   echo "Converting svn:ignore properties into .gitignore." >&2;

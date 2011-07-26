@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Copyright 2010 John Albin Wilkins.
 # Available under the GPL v2 license. See LICENSE.txt.
@@ -112,8 +112,8 @@ until [[ -z "$1" ]]; do
     ignore-file )     ignore_file=$value;;
     no-minimize-url ) gitsvn_params="$gitsvn_params --no-minimize-url";;
 
-    h )               echo $help | less >&2; exit;;
-    help )            echo $help | less >&2; exit;;
+    h )               echo -e $help | less >&2; exit;;
+    help )            echo -e $help | less >&2; exit;;
 
     * )               echo "Unknown option: $option\n$usage" >&2; exit 1;;
   esac

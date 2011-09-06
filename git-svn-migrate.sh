@@ -99,24 +99,16 @@ until [[ -z "$1" ]]; do
   fi
   parameter=${tmp%%=*}; # Extract option's name.
   value=${tmp##*=};     # Extract option's value.
-  case $parameter in
-    # Some parameters don't require a value.
-    q ) ;;
-    quiet ) ;;
-
-    # If a value is expected, but not specified inside the parameter, grab the next param.
-    * )
-      if [[ $value == $tmp ]]; then
-        if [[ ${2:0:1} == '-' ]]; then
-          # The next parameter is a new option, so unset the value.
-          value='';
-        else
-          value=$2;
-          shift;
-        fi
-      fi
-      ;;
-  esac
+  # If a value is expected, but not specified inside the parameter, grab the next param.
+  if [[ $value == $tmp ]]; then
+    if [[ ${2:0:1} == '-' ]]; then
+      # The next parameter is a new option, so unset the value.
+      value='';
+    else
+      value=$2;
+      shift;
+    fi
+  fi
 
   case $parameter in
     u )               url_file=$value;;
@@ -127,8 +119,6 @@ until [[ -z "$1" ]]; do
     destination )     destination=$value;;
     i )               ignore_file=$value;;
     ignore-file )     ignore_file=$value;;
-    q )               gitsvn_params="$gitsvn_params --quiet";;
-    quiet )           gitsvn_params="$gitsvn_params --quiet";;
 
     h )               echo -e $help | less >&2; exit;;
     help )            echo -e $help | less >&2; exit;;

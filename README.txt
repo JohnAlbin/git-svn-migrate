@@ -13,10 +13,10 @@ repositories are the following:
    Run:
    ./fetch-svn-authors.sh  --url-file=[filename] > [output file for raw authors]
 
-   And then edit the raw list of Subverions usernames to provide full names and
+   Then edit the raw list of Subversion usernames to provide full names and
    emails suitable for Git committers.
 
-3. Convert the Subverion repositories into bare Git repositories with:
+3. Convert the Subversion repositories into bare Git repositories with:
    ./git-svn-migrate.sh --url-file=[filename] --authors-file=[filename] [destination folder]
 
 A blog post about these migration scripts and a blog post about the underlying
@@ -39,7 +39,7 @@ repository's URL by itself:
   https://example.com/svn/evilProject
 
 With this format the name of the project is assumed to be the last part of the
-URL. So these repostitories would be converted into awesomeProject.git,
+URL. So these repositories would be converted into awesomeProject.git,
 secretProject.git and evilProject.git, respectively.
 
 If the project name of your repository is not the last part of the URL, or you
@@ -67,7 +67,7 @@ Example (assuming your repository list is in "repository-list.txt"):
 
   $ ./fetch-svn-authors.sh --url-file=repository-list.txt > author-transform.txt
 
-Edit the raw list of Subverions usernames to provide full names and emails
+Edit the raw list of Subversion usernames to provide full names and emails
 suitable for Git committers. The output of the fetch-svn-authors.sh script will
 be of the form:
   username = username <username>
@@ -83,7 +83,7 @@ For example:
 You can run "./fetch-svn-authors.sh --help" to get full documentation on the
 options it accepts.
 
-3. Convert the Subverion repositories into bare Git repositories.
+3. Convert the Subversion repositories into bare Git repositories.
 
 Example:
 

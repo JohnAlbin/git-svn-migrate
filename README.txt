@@ -102,6 +102,13 @@ non-interactively (i.e. no password prompts) in order for these scripts to work.
 If you consider this a bug, bugfixes are welcome!
 
 
+REQUIREMENTS
+------------
+
+- git 1.7 or later
+- Bash shell
+
+
 LICENSE
 -------
 

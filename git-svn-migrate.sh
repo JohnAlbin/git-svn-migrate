@@ -184,10 +184,11 @@ do
 
   # Clone the original Subversion repository to a temp repository.
   cd $pwd;
+  echo "- Cloning repository..." >&2;
   git svn clone $url --no-metadata -A $authors_file --authors-prog=$dir/svn-lookup-author.sh --stdlayout --quiet $gitsvn_params $tmp_destination;
 
   # Create .gitignore file.
-  echo "Converting svn:ignore properties into .gitignore." >&2;
+  echo "- Converting svn:ignore properties into a .gitignore file..." >&2;
   if [[ $ignore_file != '' ]]; then
     cp $ignore_file $tmp_destination/.gitignore;
   fi
@@ -197,6 +198,7 @@ do
   git commit --author="git-svn-migrate <nobody@example.org>" -m 'Convert svn:ignore properties to .gitignore.';
 
   # Push to final bare repository and remove temp repository.
+  echo "- Pushing to new bare repository..." >&2;
   git remote add bare $destination/$name.git;
   git config remote.bare.push 'refs/remotes/*:refs/heads/*';
   git push bare;
@@ -217,10 +219,13 @@ do
   done
 
   # Convert git-svn tag branches to proper tags.
+  echo "- Converting svn tag directories to proper git tags..." >&2;
   git for-each-ref --format='%(refname)' refs/heads/tags | cut -d / -f 4 |
   while read ref
   do
     git tag -a "$ref" -m "Convert \"$ref\" to proper git tag." "refs/heads/tags/$ref";
     git branch -D "tags/$ref";
   done
+
+  echo "- Conversion completed at $(date)." >&2;
 done < $url_file

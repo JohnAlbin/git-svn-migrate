@@ -45,10 +45,6 @@ NAME
 \n\t--ignore-file=<filename>, --ignore-file <filename>
 \n\t\tThe location of a .gitignore file to add to all repositories.
 \n
-\n\t--no-minimize-url
-\n\t\tPass the "--no-minimize-url" parameter to git-svn. See
-\n\t\tgit svn --help for more info.
-\n
 \n\t--quiet
 \n\t\tBy default this script is rather verbose since it outputs each revision
 \n\t\tnumber as it is processed from Subversion. Since conversion can sometimes
@@ -125,7 +121,6 @@ until [[ -z "$1" ]]; do
     destination )     destination=$value;;
     i )               ignore_file=$value;;
     ignore-file )     ignore_file=$value;;
-    no-minimize-url ) gitsvn_params="$gitsvn_params --no-minimize-url";;
     q )               gitsvn_params="$gitsvn_params --quiet";;
     quiet )           gitsvn_params="$gitsvn_params --quiet";;
 

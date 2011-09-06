@@ -1,0 +1,10 @@
+Version 1.x
+-----------
+- Don't use --no-metadata by default, but show it as an usage option
+- Add ability to pass options to git-svn directly
+- Allow git-svn-migrate to be called from any directory
+- Make dependency on bash explicit
+
+Version 1.0
+-----------
+- Initial release

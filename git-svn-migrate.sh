@@ -55,6 +55,11 @@ NAME
 \n\t\ttake hours to complete, this output can be useful. However, this option
 \n\t\twill surpress that output.
 \n
+\nAny additional options are assumed to be git-svn options and will be passed
+\nalong to that utility directly. Some useful git-svn options are:
+\n\t--trunk --tags --branches --no-minimize-url
+\nSee git svn --help for more info.
+\n
 \nBASIC EXAMPLES
 \n\t# Use the long parameter names
 \n\t$script --url-file=my-repository-list.txt --authors-file=authors-file.txt --destination=/var/git
@@ -78,8 +83,10 @@ until [[ -z "$1" ]]; do
   option=$1;
   # Strip off leading '--' or '-'.
   if [[ ${option:0:1} == '-' ]]; then
+    flag_delimiter='-';
     if [[ ${option:0:2} == '--' ]]; then
       tmp=${option:2};
+      flag_delimiter='--';
     else
       tmp=${option:1};
     fi
@@ -125,7 +132,12 @@ until [[ -z "$1" ]]; do
     h )               echo -e $help | less >&2; exit;;
     help )            echo -e $help | less >&2; exit;;
 
-    * )               echo "Unknown option: $option\n$usage" >&2; exit 1;;
+    * ) # Pass any unknown parameters to git-svn directly.
+        if [[ $value == '' ]]; then
+          gitsvn_params="$gitsvn_params $flag_delimiter$parameter";
+        else
+          gitsvn_params="$gitsvn_params $flag_delimiter$parameter=$value";
+        fi;;
   esac
 
   # Remove the processed parameter.

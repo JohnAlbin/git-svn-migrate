@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Copyright 2010 John Albin Wilkins.
 # Available under the GPL v2 license. See LICENSE.txt.

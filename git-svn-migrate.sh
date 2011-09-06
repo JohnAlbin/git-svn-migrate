@@ -51,6 +51,13 @@ NAME
 \n\t\ttake hours to complete, this output can be useful. However, this option
 \n\t\twill surpress that output.
 \n
+\n\t--no-metadata
+\n\t\tBy default, all converted log messages will include a line starting with
+\n\t\t"git-svn-id:" which makes it easy to track down old references to
+\n\t\tSubversion revision numbers in existing documentation, bug reports and
+\n\t\tarchives. Use this option to get rid of that data. See git svn --help for
+\n\t\ta fuller discussion on this option.
+\n
 \n\tAny additional options are assumed to be git-svn options and will be passed
 \n\talong to that utility directly. Some useful git-svn options are:
 \n\t\t--trunk --tags --branches --no-minimize-url
@@ -191,7 +198,7 @@ do
   # Clone the original Subversion repository to a temp repository.
   cd $pwd;
   echo "- Cloning repository..." >&2;
-  git svn clone $url --no-metadata -A $authors_file --authors-prog=$dir/svn-lookup-author.sh --stdlayout --quiet $gitsvn_params $tmp_destination;
+  git svn clone $url -A $authors_file --authors-prog=$dir/svn-lookup-author.sh --stdlayout --quiet $gitsvn_params $tmp_destination;
 
   # Create .gitignore file.
   echo "- Converting svn:ignore properties into a .gitignore file..." >&2;

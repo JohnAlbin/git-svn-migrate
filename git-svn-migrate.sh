@@ -58,6 +58,10 @@ NAME
 \n\t\tarchives. Use this option to get rid of that data. See git svn --help for
 \n\t\ta fuller discussion on this option.
 \n
+\n\t--shared[=(false|true|umask|group|all|world|everybody|0xxx)]
+\n\t\tSpecify that the generated git repositories are to be shared amongst
+\n\t\tseveral users. See git init --help for more info about this option.
+\n
 \n\tAny additional options are assumed to be git-svn options and will be passed
 \n\talong to that utility directly. Some useful git-svn options are:
 \n\t\t--trunk --tags --branches --no-minimize-url
@@ -79,6 +83,7 @@ EOF_HELP
 
 # Set defaults for any optional parameters or arguments.
 destination='.';
+gitinit_params='';
 gitsvn_params='';
 
 # Process parameters.
@@ -119,6 +124,12 @@ until [[ -z "$1" ]]; do
     destination )     destination=$value;;
     i )               ignore_file=$value;;
     ignore-file )     ignore_file=$value;;
+    shared )          if [[ $value == '' ]]; then
+                        gitinit_params="--shared";
+                      else
+                        gitinit_params="--shared=$value";
+                      fi
+                      ;;
 
     h )               echo -e $help | less >&2; exit;;
     help )            echo -e $help | less >&2; exit;;
@@ -182,7 +193,7 @@ do
   # Init the final bare repository.
   mkdir $destination/$name.git;
   cd $destination/$name.git;
-  git init --bare;
+  git init --bare $gitinit_params;
   git symbolic-ref HEAD refs/heads/trunk;
 
   # Clone the original Subversion repository to a temp repository.

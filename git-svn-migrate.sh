@@ -51,10 +51,10 @@ NAME
 \n\t\ttake hours to complete, this output can be useful. However, this option
 \n\t\twill surpress that output.
 \n
-\nAny additional options are assumed to be git-svn options and will be passed
-\nalong to that utility directly. Some useful git-svn options are:
-\n\t--trunk --tags --branches --no-minimize-url
-\nSee git svn --help for more info.
+\n\tAny additional options are assumed to be git-svn options and will be passed
+\n\talong to that utility directly. Some useful git-svn options are:
+\n\t\t--trunk --tags --branches --no-minimize-url
+\n\tSee git svn --help for more info about its options.
 \n
 \nBASIC EXAMPLES
 \n\t# Use the long parameter names

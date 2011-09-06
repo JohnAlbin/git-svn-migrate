@@ -19,6 +19,11 @@ repositories are the following:
 3. Convert the Subverion repositories into bare Git repositories with:
    ./git-svn-migrate.sh --url-file=[filename] --authors-file=[filename] [destination folder]
 
+A blog post about these migration scripts and a blog post about the underlying
+techniques are available at:
+http://john.albin.net/git/git-svn-migrate
+http://john.albin.net/git/convert-subversion-to-git
+
 
 USAGE
 -----

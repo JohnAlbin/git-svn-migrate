@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright 2010 John Albin Wilkins.
+# Copyright 2010-2011 John Albin Wilkins and contributors.
 # Available under the GPL v2 license. See LICENSE.txt.
 
 script=`basename $0`;

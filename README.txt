@@ -11,7 +11,7 @@ repositories are the following:
 
 2. Create a list of transformations for Subversion usernames to Git committers.
    Run:
-   ./fetch-svn-author.sh  --url-file=[filename] > [output file for raw authors]
+   ./fetch-svn-authors.sh  --url-file=[filename] > [output file for raw authors]
 
    And then edit the raw list of Subverions usernames to provide full names and
    emails suitable for Git committers.
@@ -54,16 +54,17 @@ lowercase (recommended). And in the final example, move along. Move along.
 
 2. Create a list of transformations for Subversion usernames to Git committers.
 
-Using the repository list created in step 1, run the fetch-svn-author.sh script
+Using the repository list created in step 1, run the fetch-svn-authors.sh script
 to create a list of unique usernames for all the commits in your repositories.
 The output of the script should be redirected to a file.
 
 Example (assuming your repository list is in "repository-list.txt"):
 
-  $ ./fetch-svn-author.sh --url-file=repository-list.txt > author-transform.txt
+  $ ./fetch-svn-authors.sh --url-file=repository-list.txt > author-transform.txt
 
-Edit the raw list of Subverions usernames to provide full names and emails suitable for Git committers. The output of the fetch-svn-author.sh script will be of the
-form:
+Edit the raw list of Subverions usernames to provide full names and emails
+suitable for Git committers. The output of the fetch-svn-authors.sh script will
+be of the form:
   username = username <username>
 You should edit each line to be:
   username = Full name <email>
@@ -74,7 +75,7 @@ For example:
   into:
     jwilkins = John Albin Wilkins <john@example.org>
 
-You can run "./fetch-svn-author.sh --help" to get full documentation on the
+You can run "./fetch-svn-authors.sh --help" to get full documentation on the
 options it accepts.
 
 3. Convert the Subverion repositories into bare Git repositories.

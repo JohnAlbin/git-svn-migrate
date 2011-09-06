@@ -1,9 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
 # Copyright 2010 John Albin Wilkins.
 # Available under the GPL v2 license. See LICENSE.txt.
 
 script=`basename $0`;
+dir=`pwd`/`dirname $0`;
 usage=$(cat <<EOF_USAGE
 USAGE: $script --url-file=<filename> --authors-file=<filename> [destination folder]
 \n
@@ -111,8 +112,8 @@ until [[ -z "$1" ]]; do
     ignore-file )     ignore_file=$value;;
     no-minimize-url ) gitsvn_params="$gitsvn_params --no-minimize-url";;
 
-    h )               echo $help | less >&2; exit;;
-    help )            echo $help | less >&2; exit;;
+    h )               echo -e $help | less >&2; exit;;
+    help )            echo -e $help | less >&2; exit;;
 
     * )               echo "Unknown option: $option\n$usage" >&2; exit 1;;
   esac
@@ -173,7 +174,7 @@ do
 
   # Clone the original Subversion repository to a temp repository.
   cd $pwd;
-  git svn clone $url --no-metadata -A $authors_file --authors-prog=./svn-lookup-author.sh --stdlayout --quiet $gitsvn_params $tmp_destination;
+  git svn clone $url --no-metadata -A $authors_file --authors-prog=$dir/svn-lookup-author.sh --stdlayout --quiet $gitsvn_params $tmp_destination;
 
   # Create .gitignore file.
   echo "Converting svn:ignore properties into .gitignore." >&2;

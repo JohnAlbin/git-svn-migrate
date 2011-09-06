@@ -94,7 +94,6 @@ until [[ -z "$1" ]]; do
   value=${tmp##*=};     # Extract option's value.
   case $parameter in
     # Some parameters don't require a value.
-    no-minimize-url ) ;;
     q ) ;;
     quiet ) ;;
 

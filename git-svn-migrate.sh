@@ -49,6 +49,12 @@ NAME
 \n\t\tPass the "--no-minimize-url" parameter to git-svn. See
 \n\t\tgit svn --help for more info.
 \n
+\n\t--quiet
+\n\t\tBy default this script is rather verbose since it outputs each revision
+\n\t\tnumber as it is processed from Subversion. Since conversion can sometimes
+\n\t\ttake hours to complete, this output can be useful. However, this option
+\n\t\twill surpress that output.
+\n
 \nBASIC EXAMPLES
 \n\t# Use the long parameter names
 \n\t$script --url-file=my-repository-list.txt --authors-file=authors-file.txt --destination=/var/git
@@ -86,6 +92,8 @@ until [[ -z "$1" ]]; do
   case $parameter in
     # Some parameters don't require a value.
     no-minimize-url ) ;;
+    q ) ;;
+    quiet ) ;;
 
     # If a value is expected, but not specified inside the parameter, grab the next param.
     * )
@@ -111,6 +119,8 @@ until [[ -z "$1" ]]; do
     i )               ignore_file=$value;;
     ignore-file )     ignore_file=$value;;
     no-minimize-url ) gitsvn_params="$gitsvn_params --no-minimize-url";;
+    q )               gitsvn_params="$gitsvn_params --quiet";;
+    quiet )           gitsvn_params="$gitsvn_params --quiet";;
 
     h )               echo -e $help | less >&2; exit;;
     help )            echo -e $help | less >&2; exit;;

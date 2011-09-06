@@ -223,7 +223,7 @@ do
   git for-each-ref --format='%(refname)' refs/heads/tags | cut -d / -f 4 |
   while read ref
   do
-    git tag -a "$ref" -m "Convert \"$ref\" to proper git tag." "refs/heads/tags/$ref";
+    git tag -a "$ref" -m "Convert \"$ref\" to a proper git tag." "refs/heads/tags/$ref";
     git branch -D "tags/$ref";
   done
 

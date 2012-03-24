@@ -58,6 +58,11 @@ NAME
 \n\t\tarchives. Use this option to get rid of that data. See git svn --help for
 \n\t\ta fuller discussion on this option.
 \n
+\n\t--no-stdlayout
+\n\t\tBy default, $script passes the --stdlayout option to
+\n\t\tgit-svn clone. This option suppresses that behavior. See git svn --help
+\n\t\tfor more information.
+\n
 \n\t--shared[=(false|true|umask|group|all|world|everybody|0xxx)]
 \n\t\tSpecify that the generated git repositories are to be shared amongst
 \n\t\tseveral users. See git init --help for more info about this option.
@@ -124,6 +129,7 @@ until [[ -z "$1" ]]; do
     destination )     destination=$value;;
     i )               ignore_file=$value;;
     ignore-file )     ignore_file=$value;;
+    no-stdlayout )    no_stdlayout="true";;
     shared )          if [[ $value == '' ]]; then
                         gitinit_params="--shared";
                       else
@@ -199,7 +205,14 @@ do
   # Clone the original Subversion repository to a temp repository.
   cd $pwd;
   echo "- Cloning repository..." >&2;
-  git svn clone $url -A $authors_file --authors-prog=$dir/svn-lookup-author.sh --stdlayout --quiet $gitsvn_params $tmp_destination;
+  git_svn_clone="git svn clone $url -A $authors_file --authors-prog=$dir/svn-lookup-author.sh";
+
+  if [[ -z $no_stdlayout ]]; then
+    git_svn_clone="$git_svn_clone --stdlayout";
+  fi
+
+  git_svn_clone="$git_svn_clone --quiet $gitsvn_params $tmp_destination";
+  $git_svn_clone;
 
   # Create .gitignore file.
   echo "- Converting svn:ignore properties into a .gitignore file..." >&2;

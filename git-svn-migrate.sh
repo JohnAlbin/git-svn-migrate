@@ -223,7 +223,7 @@ do
 
   # Rename Subversion's "trunk" branch to Git's standard "master" branch.
   cd $destination/$name.git;
-  git branch -m trunk master;
+  git branch -M trunk master;
 
   # Remove bogus branches of the form "name@REV".
   git for-each-ref --format='%(refname)' refs/heads | grep '@[0-9][0-9]*' | cut -d / -f 3- |

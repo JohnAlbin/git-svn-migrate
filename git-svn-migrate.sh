@@ -178,11 +178,11 @@ fi
 while read line
 do
   # Check for 2-field format:  Name [tab] URL
-  name=`echo $line | awk '{print $1}'`;
-  url=`echo $line | awk '{print $2}'`;
+  url=`echo $line | awk '{print $1}'`;
+  name=`echo $line | awk '{print $2}'`;
+  extra_args=`echo $line | awk '{ORS=" "; for (y=3; y<=NF; y++) print $y}'`;
   # Check for simple 1-field format:  URL
-  if [[ $url == '' ]]; then
-    url=$name;
+  if [[ $name == '' ]]; then
     name=`basename $url`;
   fi
   # Process each Subversion URL.
@@ -199,7 +199,7 @@ do
   # Clone the original Subversion repository to a temp repository.
   cd $pwd;
   echo "- Cloning repository..." >&2;
-  git svn clone $url -A $authors_file --authors-prog=$dir/svn-lookup-author.sh --stdlayout --quiet $gitsvn_params $tmp_destination;
+  git svn clone $url -A $authors_file --authors-prog=$dir/svn-lookup-author.sh --quiet $gitsvn_params $extra_args $tmp_destination;
 
   # Create .gitignore file.
   echo "- Converting svn:ignore properties into a .gitignore file..." >&2;

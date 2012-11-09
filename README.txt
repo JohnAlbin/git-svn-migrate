@@ -45,17 +45,25 @@ secretProject.git and evilProject.git, respectively.
 If the project name of your repository is not the last part of the URL, or you
 wish to have more control over the final name of the Git repository, you can
 specify the repository list in tab-delimited format with the first field being
-the name to give the Git repository and the second field being the URL of the
-Subversion repository:
+the URL of the Subversion repository and the second field being the name to
+give the Git repository:
 
-  awesomeProject    svn+ssh://example.org/svn/awesomeProject/repo
-  evilproject     file:///svn/evilProject
-  notthedroidsyourlookingfor  https://example.com/svn/secretProject
+  svn+ssh://example.org/svn/awesomeProject/repo	awesomeProject
+  file:///svn/evilProject	evilproject
+  https://example.com/svn/secretProject	notthedroidsyourlookingfor
 
 With this format you can use any name for the final Git repo. In the first
 example above, we're using the second-to-last part of the URL instead of the
 last part of the URL. In the second example, we're just changing the name to all
 lowercase (recommended). And in the final example, move along. Move along.
+
+If your repository is in a standaed (trunk/branches/tags) layout, you may add
+--stdlayout as the third field. If you have a non-standard layout, or wish to
+pass extra arguments to git-svn on a per-repository basis, you may add them as
+subsequent fields:
+
+  http://example.com/svn/standardProject	standardProject	--stdlayout
+  http://example.com/svn/weirdWays	weird_huh	--trunk=head
 
 2. Create a list of transformations for Subversion usernames to Git committers.
 

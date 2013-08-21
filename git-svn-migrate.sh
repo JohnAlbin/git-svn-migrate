@@ -137,8 +137,10 @@ until [[ -z "$1" ]]; do
     * ) # Pass any unknown parameters to git-svn directly.
         if [[ $value == '' ]]; then
           gitsvn_params="$gitsvn_params $flag_delimiter$parameter";
-        else
+        elif [[ ${#parameter} -gt 1 ]]; then
           gitsvn_params="$gitsvn_params $flag_delimiter$parameter=$value";
+        else
+          gitsvn_params="$gitsvn_params $flag_delimiter$parameter $value";
         fi;;
   esac
 

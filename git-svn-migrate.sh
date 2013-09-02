@@ -210,8 +210,10 @@ do
   fi
   cd $tmp_destination;
   git svn show-ignore --id trunk >> .gitignore;
-  git add .gitignore;
-  git commit --author="git-svn-migrate <nobody@example.org>" -m 'Convert svn:ignore properties to .gitignore.';
+  if [ -s .gitignore ]; then
+    git add .gitignore;
+    git commit --author="git-svn-migrate <nobody@example.org>" -m 'Convert svn:ignore properties to .gitignore.';
+  fi
 
   # Push to final bare repository and remove temp repository.
   echo "- Pushing to new bare repository..." >&2;

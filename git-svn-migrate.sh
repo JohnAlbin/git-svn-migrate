@@ -137,8 +137,10 @@ until [[ -z "$1" ]]; do
     * ) # Pass any unknown parameters to git-svn directly.
         if [[ $value == '' ]]; then
           gitsvn_params="$gitsvn_params $flag_delimiter$parameter";
-        else
+        elif [[ ${#parameter} -gt 1 ]]; then
           gitsvn_params="$gitsvn_params $flag_delimiter$parameter=$value";
+        else
+          gitsvn_params="$gitsvn_params $flag_delimiter$parameter $value";
         fi;;
   esac
 
@@ -208,8 +210,10 @@ do
   fi
   cd $tmp_destination;
   git svn show-ignore --id trunk >> .gitignore;
-  git add .gitignore;
-  git commit --author="git-svn-migrate <nobody@example.org>" -m 'Convert svn:ignore properties to .gitignore.';
+  if [ -s .gitignore ]; then
+    git add .gitignore;
+    git commit --author="git-svn-migrate <nobody@example.org>" -m 'Convert svn:ignore properties to .gitignore.';
+  fi
 
   # Push to final bare repository and remove temp repository.
   echo "- Pushing to new bare repository..." >&2;

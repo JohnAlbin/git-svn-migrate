@@ -122,6 +122,7 @@ fi
 
 # Process each URL in the repository list.
 tmp_file="tmp-authors-transform.txt";
+touch $tmp_file;
 while read line
 do
   # Check for 2-field format:  Name [tab] URL
@@ -147,4 +148,4 @@ else
   # Output to the specified destination file.
   cat $tmp_file | sort -u > $destination;
 fi
-unlink $tmp_file;
+rm $tmp_file;

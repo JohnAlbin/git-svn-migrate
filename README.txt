@@ -1,6 +1,11 @@
 ABOUT git-svn-migrate
 ---------------------
 
+This fork is basically th same as the original script by JOhn Albin.
+The only real difference is tha tthe original broke when run in MINGW/Git BASH on WIndows.
+This version includes some minor tweaks, that'll make it work flawlessly on Windows.
+The arguments and procedure are all the same as the original script.
+
 The git-svn-migrate project is a set of helper scripts to ease the migration of
 Subversion repositories to Git.
 

@@ -167,7 +167,7 @@ fi
 # Process each URL in the repository list.
 pwd=`pwd`;
 tmp_destination="$pwd/tmp-git-repo";
-mkdir -p $destination;
+mkdir -p "$destination";
 destination=`cd $destination; pwd`; #Absolute path.
 
 # Ensure temporary repository location is empty.
@@ -175,6 +175,7 @@ if [[ -e $tmp_destination ]]; then
   echo "Temporary repository location \"$tmp_destination\" already exists. Exiting." >&2;
   exit 1;
 fi
+mkdir -p "$tmp_destination";
 while read line
 do
   # Check for 2-field format:  Name [tab] URL
@@ -191,38 +192,39 @@ do
   echo "Processing \"$name\" repository at $url..." >&2;
 
   # Init the final bare repository.
-  mkdir $destination/$name.git;
-  cd $destination/$name.git;
+  mkdir "$destination/$name.git";
+  cd "$destination/$name.git";
   git init --bare $gitinit_params;
   git symbolic-ref HEAD refs/heads/trunk;
 
   # Clone the original Subversion repository to a temp repository.
   cd $pwd;
   echo "- Cloning repository..." >&2;
-  git svn clone $url -A $authors_file --authors-prog=$dir/svn-lookup-author.sh --stdlayout --quiet $gitsvn_params $tmp_destination;
+  echo "$pwd/$authors_file";
+  git svn clone $url -A "$pwd/$authors_file" --authors-prog="$dir/svn-lookup-author.sh" --stdlayout --quiet $gitsvn_params "$tmp_destination";
 
   # Create .gitignore file.
   echo "- Converting svn:ignore properties into a .gitignore file..." >&2;
   if [[ $ignore_file != '' ]]; then
-    cp $ignore_file $tmp_destination/.gitignore;
+    cp "$ignore_file" "$tmp_destination/.gitignore";
   fi
-  cd $tmp_destination;
+  cd "$tmp_destination";
   git svn show-ignore --id trunk >> .gitignore;
   git add .gitignore;
   git commit --author="git-svn-migrate <nobody@example.org>" -m 'Convert svn:ignore properties to .gitignore.';
 
   # Push to final bare repository and remove temp repository.
   echo "- Pushing to new bare repository..." >&2;
-  git remote add bare $destination/$name.git;
+  git remote add bare "$destination/$name.git";
   git config remote.bare.push 'refs/remotes/*:refs/heads/*';
   git push bare;
   # Push the .gitignore commit that resides on master.
   git push bare master:trunk;
   cd $pwd;
-  rm -r $tmp_destination;
+  rm -r "$tmp_destination";
 
   # Rename Subversion's "trunk" branch to Git's standard "master" branch.
-  cd $destination/$name.git;
+  cd "$destination/$name.git";
   git branch -m trunk master;
 
   # Remove bogus branches of the form "name@REV".
